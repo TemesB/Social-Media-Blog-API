@@ -64,6 +64,13 @@ public class SocialMediaController {
     private void login(Context context) {
         String username = context.formParam("username");
         String password = context.formParam("password");
+        
+        // Check if username or password is empty
+        if (username.isEmpty() || password.isEmpty()) {
+            context.result("Username or password cannot be empty").status(400);
+            return;
+        }
+        
         Account account = accountService.authenticate(username, password);
         if (account != null) {
             context.result("Login successful");
@@ -71,6 +78,7 @@ public class SocialMediaController {
             context.result("Invalid username or password");
         }
     }
+    
 
     private void createMessage(Context context) {
         Message message = context.bodyAsClass(Message.class);
