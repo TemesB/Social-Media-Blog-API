@@ -4,27 +4,30 @@ import Model.Account;
 import DAO.AccountDAO;
 
 public class AccountService {
+    // add dependency
     private AccountDAO accountDAO;
 
+    // no-args constructor 
     public AccountService() {
         this.accountDAO = new AccountDAO();
     }
 
-    public boolean registerAccount(Account account) {
-        // Check if username is blank or password is too short
-        if (account.getUsername().isEmpty() || account.getPassword().length() < 4) {
-            return false;
+    public Account registerNewAcct(Account account) {
+        // Check if username is blank or password is too short(less than 4)
+        if (account.getUsername().length() > 0 &&  account.getPassword().length() >= 4) {
+            return  accountDAO.addAccount(account);
+        } else {
+            return null;
         }
-        // Check if account with the same username already exists
-        if (accountDAO.accountExists(account.getUsername())) {
-            return false;
-        }
-        // Add the account to the database
-        accountDAO.addAccount(account);
-        return true;
     }
 
-    public Account authenticate(String username, String password) {
-        return accountDAO.getAccount(username, password);
+    //    Method to authenticate for login
+    public Account authenticate(Account account) {
+        if(accountDAO.getAccount(account) != null){
+            return accountDAO.getAccount(account);
+        }
+        else {
+            return null;
+        }
     }
 }
