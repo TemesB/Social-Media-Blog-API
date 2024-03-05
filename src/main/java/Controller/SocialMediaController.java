@@ -62,6 +62,8 @@ public class SocialMediaController {
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
     // Create handlers
+    // Exceptions are thrown in the provided methods below to handle potential errors or exceptional situations
+    //  that may occur during IO operations, JSON processing, or multithreading. 
     private void registerAccount(Context context) throws IOException {
         // get information needed from request
         Account account = objectMapper.readValue(context.body(), Account.class);
@@ -76,7 +78,7 @@ public class SocialMediaController {
         }
     }
 
-    private void login(Context context)throws IOException, InterruptedException {
+    private void login(Context context)throws IOException {
         // get information needed from request
         Account account = objectMapper.readValue(context.body(), Account.class);
         // calling relevant service layer method
